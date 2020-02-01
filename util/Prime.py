@@ -1,4 +1,21 @@
+from itertools import islice
+
 class Prime:
+
+    def __init__(self, limit):
+        self.limit = limit
+        self.plist = [True] * limit
+        self.plist[0] = self.plist[1] = False
+
+    def __iter__(self):
+        for i, isprime in enumerate(self.plist):
+            if isprime:
+                yield i
+                for n in range(i*i, self.limit, i):
+                    self.plist[n] = False
+
+    def __getitem__(self, n):
+        return next(islice(self.__iter__(), n, None))
 
     #Problem 3
     #Needs 64-bit python installed
